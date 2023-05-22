@@ -14,7 +14,7 @@ typedef struct {
     int v[];
     int size;
 } clique;
-*/
+*/ 
  
 
 void print_solution(int v[], int size, int k){

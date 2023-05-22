@@ -70,26 +70,35 @@ bool search_for_solution(int v[], int n, int k){
         else {
             next_binomial(n,2*k,v);
         }
-		printf("Checking... %d / %d ",i+1,nb_labelings);
-        print_array(v,n);
+		//printf("Checking... %d / %d ",i+1,nb_labelings);
+        //print_array(v,n);
 	}
     return false;
 }
 
 int main(void){
-    int n = 7;
-    int k = ((n*(n-1))/2)+1; // m = |E(K5)| = 10, k = m+1
-    //int v[5] = {0,3,5,10,18};
-    // bool b = check_solution(v,n,k);
-    int v[n];
-    print_array(v,n);
-    bool b = search_for_solution(v,n,k);
-    if (b){
-        printf("A solution was found!\n");
-        print_solution(v,n,k);
-    }
-    else {
-        printf("No solution was found.");
+    //int n = 7;
+    bool stop = false;
+    int n = 2;
+    while(!stop){
+        int k = ((n*(n-1))/2)+1; // m = |E(K5)| = 10, k = m+1
+        int v[n];
+        print_array(v,n);
+        bool b = search_for_solution(v,n,k);
+        if (b){
+            printf("n = %d: a solution was found!\n", n);
+            print_solution(v,n,k);
+            printf("n = %d: done.", n);
+        }
+        else {
+            printf("n = %d: no solution was found.\n", n);
+            stop = true;
+        }
+        fflush(stdout);
+        n++;
+        /*if(n==8){
+            stop = true;
+        }*/
     }
     return EXIT_SUCCESS;
 }

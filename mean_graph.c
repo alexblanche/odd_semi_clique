@@ -8,13 +8,6 @@
 int f(int a, int b, int k){
     return (((a+b)/2) % k);
 }
-
-/*
-typedef struct { 
-    int v[];
-    int size;
-} clique;
-*/ 
  
 
 void print_solution(int v[], int size, int k){

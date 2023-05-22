@@ -1,7 +1,15 @@
-//#include <stdio.h>
+/*
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+*/
+
 
 // Returns n choose k
-int n_choose_k(int n, int k) {
+
+// Extremely inefficient (exponential)
+/*
+long n_choose_k(int n, int k) {
 	if (k == 0 || k == n){
 	   	return 1;
 	}
@@ -9,6 +17,27 @@ int n_choose_k(int n, int k) {
 		return n_choose_k(n-1, k-1) + n_choose_k(n-1, k);
 	}
 }
+*/
+
+// Dynamic programming algorithm, more efficient (quadratic)
+long long n_choose_k(int n, int k) {
+	if (k > n - k){
+        k = n - k;
+	}
+	long long mem[n+1][n+1];
+	mem[0][0] = 1;
+	for(int i = 0; i < n+1; i++){
+		mem[i][0] = 1;
+		mem[i][i] = 1;
+	}
+    for(int i = 1; i < n+1; i++){
+        for(int j = 1; j < i; j++){
+            mem[i][j] = mem[i-1][j-1] + mem[i-1][j];
+        }
+    }
+    return mem[n][k];
+}
+
 
 
 /*
@@ -73,6 +102,17 @@ int main(){
 		print_array(bin,k);
 	}
 	return 0;
+}
+*/
+
+// Tests for n_choose_k
+/*
+int main(){
+	int n = 22;
+    int k = 5;
+    long nchk = n_choose_k(n,k);
+    printf("nchk: %ld\n", nchk);
+    return 0;
 }
 */
 

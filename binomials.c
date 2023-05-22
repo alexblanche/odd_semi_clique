@@ -1,4 +1,4 @@
-#include <stdio.h>
+//#include <stdio.h>
 
 // Returns n choose k
 int n_choose_k(int n, int k) {
@@ -12,6 +12,7 @@ int n_choose_k(int n, int k) {
 
 
 /*
+Example:
 6 choose 4
 0123 0234 1234 2345
 0124 0235 1235
@@ -49,7 +50,7 @@ void next_binomial(int k, int n, int bin[]){
 }
 
 
-// prints the array t under the format :
+// Prints the array t under the format :
 // {12,3,4,18} -> 12 3 4 18
 void print_array(int t[], int size){
 	for(int i = 0; i<size; i++){
@@ -58,6 +59,8 @@ void print_array(int t[], int size){
 	printf("\n");
 }
 
+
+/*
 int main(){
 	int n = 5;
 	int k = 3;
@@ -71,7 +74,7 @@ int main(){
 	}
 	return 0;
 }
-
+*/
 
 
 

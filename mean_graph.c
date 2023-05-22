@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <stdbool.h>
 
 #include "binomials.c"
@@ -58,14 +59,26 @@ bool check_solution(int v[], int size, int k){
 // vertex-labelings = the "(2k) choose n"
 
 // Returns true if a solution was found, and puts it in the v array, otherwise returns false
-bool search_for_solution(int v[], int size, int k){
+// n = number of vertices
+bool search_for_solution(int v[], int n, int k){
+	int nb_labelings = n_choose_k(2*k,n);
+	first_binomial(n,v);
+	for (int i = 0; i<nb_labelings; i++){
+        if (check_solution(v,n,k)){
+            return true;
+        }
+        else {
+            next_binomial(k,n,v);
+        }
+		printf("Checking... %d / %d\n",i+1,nb_labelings);
+	}
     return false;
 }
 
 int main(void){
     // correct labeling for K5
-    int v5[5] = {0,3,5,10,18};
-    int k = 11;
+    //int v5[5] = {0,3,5,10,18};
+    //int k = 11;
     //print_solution(v5, 5, 11);
     /*
     if (check_solution(v5,5,k)){
@@ -76,6 +89,17 @@ int main(void){
         printf("False");
     }
     */
-
-    return 0;
+    int n = 5;
+    int k = ((n*(n-1))/2)+1; // m = |E(K5)| = 10, k = m+1
+    int v[5] = {0,3,5,10,18};
+    bool b = check_solution(v,n,k);
+    //bool b = search_for_solution(v,n,k);
+    if (b){
+        printf("A solution was found!\n");
+        print_solution(v,n,k);
+    }
+    else {
+        printf("No solution was found.");
+    }
+    return EXIT_SUCCESS;
 }

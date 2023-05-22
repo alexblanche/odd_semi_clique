@@ -68,32 +68,22 @@ bool search_for_solution(int v[], int n, int k){
             return true;
         }
         else {
-            next_binomial(k,n,v);
+            next_binomial(n,2*k,v);
         }
-		printf("Checking... %d / %d\n",i+1,nb_labelings);
+		printf("Checking... %d / %d ",i+1,nb_labelings);
+        print_array(v,n);
 	}
     return false;
 }
 
 int main(void){
-    // correct labeling for K5
-    //int v5[5] = {0,3,5,10,18};
-    //int k = 11;
-    //print_solution(v5, 5, 11);
-    /*
-    if (check_solution(v5,5,k)){
-        printf("True");
-        print_solution(v5, 5, k);
-    }
-    else{
-        printf("False");
-    }
-    */
-    int n = 5;
+    int n = 7;
     int k = ((n*(n-1))/2)+1; // m = |E(K5)| = 10, k = m+1
-    int v[5] = {0,3,5,10,18};
-    bool b = check_solution(v,n,k);
-    //bool b = search_for_solution(v,n,k);
+    //int v[5] = {0,3,5,10,18};
+    // bool b = check_solution(v,n,k);
+    int v[n];
+    print_array(v,n);
+    bool b = search_for_solution(v,n,k);
     if (b){
         printf("A solution was found!\n");
         print_solution(v,n,k);

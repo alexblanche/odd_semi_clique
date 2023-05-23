@@ -61,9 +61,9 @@ bool check_solution(int v[], int size, int k){
 // Returns true if a solution was found, and puts it in the v array, otherwise returns false
 // n = number of vertices
 bool search_for_solution(int v[], int n, int k){
-	long long nb_labelings = n_choose_k(2*k,n);
-	first_binomial(n,v);
-	for (long long i = 0; i<nb_labelings; i++){
+    long long nb_labelings = n_choose_k(2*k,n);
+    first_binomial(n,v);
+    for (long long i = 0; i<nb_labelings; i++){
         if (check_solution(v,n,k)){
             return true;
         }
@@ -76,7 +76,7 @@ bool search_for_solution(int v[], int n, int k){
             //print_array(v,n);
             fflush(stdout);
         }
-	}
+    }
     return false;
 }
 

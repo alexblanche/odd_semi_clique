@@ -25,7 +25,7 @@ void print_solution(int v[], int size, int k){
     for(int i=1; i < size; i++){
         printf(", %d", v[i]);
     }
-    printf("\n Edges:\n");
+    printf("\nEdges:\n");
     for(int i=0; i<size; i++){
         for(int j=i+1; j<size; j++){
             printf("%d - %d : f(%d,%d) = %d \n", v[i], v[j], v[i], v[j], f(v[i],v[j],k));

@@ -28,11 +28,11 @@ Since I could not prove that all graphs are soft-mean, and before attempting to 
 
 ### Files
 
-The following repository contains two files: 
+The following repository contains two files:
 - binomials.c contains functions to compute the binomial coefficients and enumerate the choices of k elements among n.
 - mean_graph.c contains functions to search for a soft-mean labeling in a complete graph, check that it is a correct labeling, and print it.
 
-### Conclusions 
+### Conclusion
 
 K_n is soft-mean for n = 2,...,7, and mean_graph.c computes a labeling in each case.
 However, K_8 does not seem to have a solution (among ~2 billion possibilities), according to my program, so I decided to abandon this method.

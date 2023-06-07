@@ -14,7 +14,7 @@ While lots of sparse graph classes have been proven to satisfy Gallai's bound (a
 1. Start by coloring the complete graph K_{2k} with the "zig-zagging" coloring due to Walecki (1883) (see page 30 of my thesis). This coloring can be formalized algebraically as follows: the vertices of the graph are labeled 0,1,...,2k-1, the colors are 0,1,...,k-1, and the color i is the set of edges {uv\in E(G), s.t. floor((u+v)/2) = i (mod k)}.
 
 2. Place the anti-graph (of at most k-1 anti-edges) in the colored K_{2k} such that the anti-edges have different colors.
-This corresponds to labeling the vertices of the anti-graph injectively in such a way that the labeling f(uv) = floor((u+v)/2) = i (mod k) distinguishes all the anti-edges. I call graphs having this property "soft-mean", by analogy to "mean graphs" who have a similar definition.
+This corresponds to labeling the vertices of the anti-graph injectively in such a way that the labeling f(uv) = floor((u+v)/2) (mod k) distinguishes all the anti-edges. I call graphs having this property "soft-mean", by analogy to "mean graphs" who have a similar definition.
 
 3. Find a "gray path" that uses exactly one edge from each unused color (this path does not have to be vertex- or edge-disjoint from the anti-graph).
 

@@ -70,7 +70,7 @@ bool search_for_solution(int v[], int n, int k){
         else {
             next_binomial(n,2*k,v);
         }
-		//printf("Checking... %d / %d ",i+1,nb_labelings);
+	//printf("Checking... %d / %d ",i+1,nb_labelings);
         if ((i%10000000) == 0){
             printf("Checking... %lld / %lld \n",(i+1)/10000000,nb_labelings/10000000);
             //print_array(v,n);
@@ -84,7 +84,7 @@ bool search_for_solution(int v[], int n, int k){
 int main(void){
     bool stop = false;
     int n = 8;
-    int k = ((n*(n-1))/2)+1; // m = |E(K5)| = 10, k = m+1
+    int k = ((n*(n-1))/2)+1; // k = m+1
     int v[n];
     bool b = search_for_solution(v,n,k);
     if (b){

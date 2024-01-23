@@ -62,27 +62,38 @@ bool check_solution(int v[], int size, int k){
 // n = number of vertices
 bool search_for_solution(int v[], int n, int k){
     long long nb_labelings = n_choose_k(2*k,n);
+    int step = 10000000;
+    long long nblabred = nb_labelings/step;
     first_binomial(n,v);
-    for (long long i = 0; i<nb_labelings; i++){
+    
+    for (long long i = 0; i < nblabred; i++){
+        for (int j = 0; j < step; j++){
+            if (check_solution(v,n,k)){
+                return true;
+            }
+            else {
+                next_binomial(n,2*k,v);
+            }
+        }
+
+        printf("Checking... %lld / %lld \n", i+1, nblabred);
+        fflush(stdout);
+    }
+
+    for (int j = 0; j < nb_labelings % step; j++){
         if (check_solution(v,n,k)){
             return true;
         }
         else {
             next_binomial(n,2*k,v);
         }
-		//printf("Checking... %d / %d ",i+1,nb_labelings);
-        if ((i%10000000) == 0){
-            printf("Checking... %lld / %lld \n",(i+1)/10000000,nb_labelings/10000000);
-            //print_array(v,n);
-            fflush(stdout);
-        }
     }
+
     return false;
 }
 
 
 int main(void){
-    bool stop = false;
     int n = 8;
     int k = ((n*(n-1))/2)+1; // m = |E(K5)| = 10, k = m+1
     int v[n];

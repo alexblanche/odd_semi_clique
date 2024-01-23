@@ -62,7 +62,7 @@ bool check_solution(int v[], int size, int k){
 // n = number of vertices
 bool search_for_solution(int v[], int n, int k){
     long long nb_labelings = n_choose_k(2*k,n);
-    int step = 10000000;
+    long long step = 10000000;
     long long nblabred = nb_labelings/step;
     first_binomial(n,v);
     
@@ -95,7 +95,7 @@ bool search_for_solution(int v[], int n, int k){
 
 int main(void){
     int n = 8;
-    int k = ((n*(n-1))/2)+1; // m = |E(K5)| = 10, k = m+1
+    int k = ((n*(n-1))/2)+1; // k = m+1
     int v[n];
     bool b = search_for_solution(v,n,k);
     if (b){

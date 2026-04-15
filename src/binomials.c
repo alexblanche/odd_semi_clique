@@ -5,24 +5,25 @@
 #include <stdio.h>
 
 // Dynamic programming algorithm (quadratic)
+// Assumes, k != 0, n >= 2
 long long binomial_coef(int n, int k) {
-	if (k > n - k){
-        k = n - k;
-	}
+	
+	k = (k > n - k) ? (n - k) : k;
+	
 	// n = 2 * K, k = N
-	#define SIZE (2 * K + 1)
-	long long mem[SIZE][SIZE];
-	mem[0][0] = 1;
-	for(int i = 0; i < n + 1; i++) {
-		mem[i][0] = 1;
-		mem[i][i] = 1;
-	}
-    for(int i = 1; i < n + 1; i++) {
-        for(int j = 1; j < i; j++) {
-            mem[i][j] = mem[i-1][j-1] + mem[i-1][j];
+	// size = n + 1
+	// no need to go above mem[k]
+	static long long mem[N + 1];
+	
+	for(int i = 0; i < k + 1; i++)
+		mem[i] = 1;
+
+    for(int i = 1; i < n; i++) {
+        for(int j = k; j > 0; j--) {
+            mem[j] += mem[j-1];
         }
     }
-    return mem[n][k];
+    return mem[k] + mem[k - 1];
 }
 
 
@@ -44,6 +45,7 @@ void next_binomial(int k, int n, int bin[]) {
 		i--;
 	if (i < 0)
 		return;
+		
 	// in this case bin[i+1, ..., k-1] = n-1-(k-1-i), ..., n-2,n-1
 	// n-1-(k-1-i) = n-k+i
 	const int a = bin[i] + 1;

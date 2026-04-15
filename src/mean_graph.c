@@ -30,7 +30,7 @@ void print_solution(int v[], int size, int k){
     printf("\nEdges:\n");
     for(int i = 0; i<size; i++) {
         for(int j = i + 1; j < size; j++) {
-            printf("%2d - %2d: f(%2d,%2d) = %2d \n", v[i], v[j], v[i], v[j], f(v[i],v[j] /* ,k */));
+            printf("%2d - %2d: f(%2d,%2d) = %2d \n", v[i], v[j], v[i], v[j], f(v[i], v[j] /* ,k */));
         }
     }
 }
@@ -39,7 +39,7 @@ void print_solution(int v[], int size, int k){
 bool check_solution(int v[], int size, int k) {
 
     static bool seen[K];
-    memset(seen, false, sizeof(bool));
+    memset(seen, false, K * sizeof(bool));
 
     for (int i = 0; i < size; i++) {
         for (int j = i + 1; j < size; j++) {
@@ -75,18 +75,22 @@ bool search_for_solution(int v[], int n, int k) {
             next_binomial(n, two_k, v);
         }
 
-        printf("\rChecking... %.f %%", (100.f * (i+1)) / nblabred);
+        printf("\rChecking... %.f %%", (100.f * (i + 1)) / nblabred);
         fflush(stdout);
 
     }
     printf("\n");
 
     const int remaining = nb_labelings % step;
+    
     for (int j = 0; j < remaining; j++) {
+
         if (check_solution(v, n, k))
             return true;
+        
         next_binomial(n, two_k, v);
     }
+
     return false;
 }
 

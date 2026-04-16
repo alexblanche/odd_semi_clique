@@ -10,12 +10,12 @@ int main() {
     const int n = N;
     const int k = K; // ((n * (n-1)) / 2) + 1; // k = m + 1
 
-    int v[N];
-    const bool res = search_for_solution(v, n, k);
+    combination c;
+    const bool res = search_for_solution(n, k, &c);
 
     if (res){
         printf("n = %d: a solution was found!\n", n);
-        print_solution(v, n, k);
+        print_solution(&c);
         printf("n = %d: done\n", n);
     }
     else {

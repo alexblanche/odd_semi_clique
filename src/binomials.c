@@ -1,57 +1,61 @@
 #include "binomials.h"
 #include "parameters.h"
 
-// Returns n choose k
 #include <stdio.h>
 
+// Returns a choose b
 // Dynamic programming algorithm (quadratic)
-// Assumes, k != 0, n >= 2
-long long binomial_coef(int n, int k) {
+// Assumes, b != 0, b >= 2
+long long binomial_coef(int a, int b) {
 	
-	k = (k > n - k) ? (n - k) : k;
+	b = (b > a - b) ? (a - b) : b;
 	
-	// n = 2 * K, k = N
-	// size = n + 1
-	// no need to go above mem[k]
+	// a = 2 * K, b = N
+	// size = a + 1
+	// no need to go above mem[b]
 	static long long mem[N + 1];
-	
-	for(int i = 0; i < k + 1; i++)
+	for(int i = 0; i < b + 1; i++)
 		mem[i] = 1;
 
-    for(int i = 1; i < n; i++) {
-        for(int j = k; j > 0; j--) {
+	for (int i = 1; i < b; i++) {
+		for(int j = i; j > 0; j--)
             mem[j] += mem[j-1];
-        }
-    }
-    return mem[k] + mem[k - 1];
-}
-
-
-// Puts the array {0, 1, ..., k - 1} in the array res
-void first_binomial(int k, int res[]){
-	for(int i = 0; i < k; i++) {
-		res[i] = i;
 	}
+    for(int i = b; i < a - 1; i++) {
+        for(int j = b; j > 0; j--)
+            mem[j] += mem[j-1];
+    }
+    return mem[b] + mem[b - 1];
 }
 
 
-// bin contains a choice of k integers among {0,...,n-1}
-// The function returns the next one in the bin array
-void next_binomial(int k, int n, int bin[]) {
+// Returns the combination { 0, 1, ..., b - 1 }
+combination first_combination(int a, int b) {
+	combination c;
+	c.a = a;
+	c.b = b;
+	for (int i = 0; i < c.b; i++)
+		c.t[i] = i;
+	return c;
+}
+
+
+// bin contains a choice of b integers among { 0, ..., a-1 }
+// The function returns the next one in the c->t array
+void next_combination(combination *c) {
 	
-	int i = k - 1;
-	const int val = n - k + i;
-	while (i >= 0 && bin[i] >= val)
+	int i = (c->b) - 1;
+	while (i >= 0 && c->t[i] >= ((c->a) - (c->b) + i))
 		i--;
 	if (i < 0)
 		return;
 		
-	// in this case bin[i+1, ..., k-1] = n-1-(k-1-i), ..., n-2,n-1
+	// in this case t[i+1, ..., k-1] = n-1-(k-1-i), ..., n-2,n-1
 	// n-1-(k-1-i) = n-k+i
-	const int a = bin[i] + 1;
-	const int bound = k - i;
-	int *p = bin + i;
+	const int x = c->t[i] + 1;
+	const int bound = c->b - i;
+	int *p = c->t;
 	for (int j = 0; j < bound; j++)
-		p[j] = a + j;
+		p[i + j] = x + j;
 }
 

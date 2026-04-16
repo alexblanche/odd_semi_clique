@@ -11,7 +11,7 @@ An *odd semi-clique* is a complete graph $K_{2k+1}$ from which at most $k-1$ edg
 
 While lots of sparse graph classes have been proven to satisfy Gallai's bound (and the stronger $\left\lfloor n / 2\right\rfloor$ bound), not much is known for dense graphs. In order to tackle the class of odd semi-cliques, I imagined the following method for finding a decomposition into $\left\lceil n / 2\right\rceil$ paths. Here $n = 2k+1$, we refer to paths as colors, the (at most $k-1$) edges removed from the complete graph are called *anti-edges*, and they form the *anti-graph*.
 
-1. Start by coloring the complete graph $K_{2k}$ with the "zig-zagging" coloring due to Walecki (1883) (see page 30 of my thesis). This coloring can be formalized algebraically as follows: the vertices of the graph are labeled $0, 1, \dots, 2k-1$, the colors are $0, 1, \dots, k-1$, and the color $i$ is the set of edges $\{ uv \in E(G), \text{s.t.} \left\lfloor (u + v) / 2\right\rfloor = i (\mod k)\}$.
+1. Start by coloring the complete graph $K_{2k}$ with the "zig-zagging" coloring due to Walecki (1883) (see page 30 of my thesis). This coloring can be formalized algebraically as follows: the vertices of the graph are labeled $0, 1, \dots, 2k-1$, the colors are $0, 1, \dots, k-1$, and the color $i$ is the set of edges $\{uv \in E(G),\ \text{s.t.}\ \left\lfloor (u + v) / 2\right\rfloor = i (\mod k)\}$.
 
 **Remark**: the Walecki coloring is the only one I know that achieves a Gallai-decomposition of the complete graph.
 

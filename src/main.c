@@ -11,15 +11,18 @@ int main() {
     const int k = K; // ((n * (n-1)) / 2) + 1; // k = m + 1
 
     combination c;
-    const bool res = search_for_solution(n, k, &c);
 
-    if (res){
+    switch (search_for_solution(n, k, &c))
+    {
+    case Solution_found:
         printf("n = %d: a solution was found!\n", n);
         print_solution(&c);
         printf("n = %d: done\n", n);
-    }
-    else {
+        break;
+    
+    case No_solution_found:
         printf("n = %d: no solution was found\n", n);
+        break;
     }
     
     return EXIT_SUCCESS;

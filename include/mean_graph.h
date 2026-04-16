@@ -22,8 +22,11 @@ void print_solution(const combination *c);
 // Solution space: size labels among {0,...,2k-1}
 // vertex-labelings = the "(2k) choose n"
 
-// Returns true if a solution was found, and puts it in the c combination, otherwise returns false
-bool search_for_solution(int n, int k, combination *c);
+typedef enum {
+    Solution_found, No_solution_found
+} search_result;
 
+// Returns true if a solution was found, and puts it in the c combination, otherwise returns false
+search_result search_for_solution(int n, int k, combination *c);
 
 #endif

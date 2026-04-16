@@ -1,8 +1,7 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
 #include <string.h>
 
+#include "mean_graph.h"
 #include "parameters.h"
 #include "binomials.h"
 
@@ -18,13 +17,13 @@ typedef struct {
     int half;
     bool mod;
 } f_res;
+
 inline f_res fa(int a) { //, int k){
     return (f_res) { a >> 1, a & 1 };
 }
 inline int f_sum(int b, bool m) {
     return (b >> 1) + (m ? (b & 1) : 0);
 }
-
 
 // Prints a solution with the format:
 /*
@@ -50,7 +49,7 @@ void print_solution(const combination *c){
 }
 
 // Check whether the labeling v is a solution for the soft-meanness property for the clique Kn
-bool check_solution(const combination *c) {
+combination_status check_solution(const combination *c) {
 
     static bool seen[K];
     memset(seen, 0, K * sizeof(bool));
@@ -62,7 +61,7 @@ bool check_solution(const combination *c) {
         for (int j = i + 1; j < (c->b); j++) {
             const int x = f(c->t[i], c->t[j]);//, (c->a) / 2);
             if (seen[x])
-                return false;
+                return combination_invalid;
             seen[x] = true;
         }
     }
@@ -73,21 +72,68 @@ bool check_solution(const combination *c) {
         for (int j = i + 1; j < c->b; j++) {
             const int x = (resa.half + f_sum(c->t[j], resa.mod)) % K;
             if (seen[x])
-                return false;
+                return combination_invalid;
             seen[x] = true;
         }
     }
 #endif
-    return true;
+    return combination_valid;
 }
 
-bool test_combinations(combination *c, long long nb) {
+inline check_result order(int j1, int j2) {
+    
+    return (check_result) {
+        combination_invalid,
+        (j1 > j2) ? j1 : j2
+    };
+}
+
+typedef struct {
+    int maxv;
+} edge;
+
+// Check whether the labeling v is a solution for the soft-meanness property for the clique Kn
+check_result check_solution_with_culprits(const combination *c) {
+
+    static bool seen[K];
+    memset(seen, 0, K * sizeof(bool));
+    static edge edges[K];
+    memset(edges, 0, K * sizeof(edge));
+
+    for (int i = 0; i < c->b; i++) {
+
+        const f_res resa = fa(c->t[i]);
+        for (int j = i + 1; j < c->b; j++) {
+            const int x = (resa.half + f_sum(c->t[j], resa.mod)) % K;
+            if (seen[x]) {
+                return order(edges[x].maxv, j);
+            }
+            seen[x] = true;
+            edges[x].maxv = j;
+        }
+    }
+    return (check_result) { .res = combination_valid };
+}
+
+search_result test_combinations(combination *c, long long nb) {
     for (long long j = 0; j < nb; j++) {
-        if (check_solution(c))
-            return true;
+        if (check_solution(c) == combination_valid)
+            return Solution_found;
         next_combination(c);
     }
-    return false;
+    return No_solution_found;
+}
+
+search_result test_combinations_skip(combination *c, long long nb) {
+
+    bool stop = false;
+    for (long long j = 0; !stop && (j < nb); j++) {
+        const check_result cr = check_solution_with_culprits(c);
+        if (cr.res == combination_valid)
+            return Solution_found;
+        stop = next_combination_skip(c, &cr);
+    }
+    return No_solution_found;
 }
 
 // Bruteforcing the labelings
@@ -96,7 +142,7 @@ bool test_combinations(combination *c, long long nb) {
 
 // Returns true if a solution was found, and puts it in the v array, otherwise returns false
 // n = number of vertices
-bool search_for_solution(int n, int k, combination *c) {
+search_result search_for_solution(int n, int k, combination *c) {
 
     const int two_k = 2 * k;
     const long long nb_labelings = binomial_coef(two_k, n);
@@ -107,12 +153,14 @@ bool search_for_solution(int n, int k, combination *c) {
 
     // Printing progression after every batch
     for (long long i = 0; i < nb_batches; i++) {
-        if (test_combinations(c, batch_size)) // tests batch combinations
-            return true;
+        if (test_combinations_skip(c, batch_size) == Solution_found) // tests batch combinations
+            return Solution_found;
         printf("\rChecking... %.f %%", (100.f * (i + 1)) / nb_batches);
         fflush(stdout);
     }
     printf("\n");
-    return test_combinations(c, nb_labelings % batch_size);
+    return test_combinations_skip(c, nb_labelings % batch_size);
 }
 
+// Solution for n = 7
+// 0, 3, 9, 15, 20, 30, 40

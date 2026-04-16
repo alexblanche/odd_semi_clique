@@ -58,3 +58,29 @@ void next_combination(combination *c) {
 		c->t[j] = x + (j - i);
 }
 
+
+// skips to the combination that increases index
+bool next_combination_skip(combination *c, const check_result *cr) {
+	
+	int index;
+	if (c->t[cr->max_culprit] < (2 * K) - N + cr->max_culprit) {
+		index = cr->max_culprit;
+	}
+	else {
+		int i;
+		for (i = N - 1; i >= 0; i--)
+			if (c->t[i] < (2 * K) - N + i)
+				break;
+		if (i < 0)
+			return true;
+		index = i;
+	}
+
+	
+	const int x = c->t[index] + 1;
+	for (int j = index; j < N; j++)
+		c->t[j] = x + (j - index);
+
+	return false;
+}
+

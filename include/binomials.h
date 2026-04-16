@@ -3,6 +3,8 @@
 
 #include "parameters.h"
 
+#include <stdbool.h>
+
 // Represents a combination of k elements among n
 typedef struct {
     int t[N];
@@ -21,5 +23,6 @@ combination first_combination(int a, int b);
 // The function returns the next one in the bin array
 void next_combination(combination *c);
 
+bool next_combination_skip(combination *c, const check_result *cr);
 
 #endif

@@ -26,7 +26,8 @@ This way, the anti-edges "cut" some colors and turn their cycles into paths, and
 
 ## Experiment
 
-Since I could not prove that all graphs are soft-mean, and before attempting to brute-force all graphs up to a certain size to build confidence, I tried to brute-force the small complete graphs, as I figured that these were the cases most likely to fail.
+Since I could not prove that all graphs are soft-mean, and before attempting to brute-force all graphs up to a certain size to build confidence, I tried to brute-force the small complete graphs, as I figured that these were the cases most likely to fail.  
+The parameter ``N`` is defined in the file ``include/parameters.h``.
 
 ### Conclusion
 

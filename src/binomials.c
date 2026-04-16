@@ -44,18 +44,17 @@ combination first_combination(int a, int b) {
 // The function returns the next one in the c->t array
 void next_combination(combination *c) {
 	
-	int i = (c->b) - 1;
-	while (i >= 0 && c->t[i] >= ((c->a) - (c->b) + i))
-		i--;
+	int i;
+	for (i = N - 1; i >= 0; i--)
+		if (c->t[i] < (2 * K) - N + i)
+			break;
 	if (i < 0)
 		return;
 		
 	// in this case t[i+1, ..., k-1] = n-1-(k-1-i), ..., n-2,n-1
 	// n-1-(k-1-i) = n-k+i
 	const int x = c->t[i] + 1;
-	const int bound = c->b - i;
-	int *p = c->t;
-	for (int j = 0; j < bound; j++)
-		p[i + j] = x + j;
+	for (int j = i; j < N; j++)
+		c->t[j] = x + (j - i);
 }
 

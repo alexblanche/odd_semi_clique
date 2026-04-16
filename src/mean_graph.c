@@ -11,8 +11,20 @@
 
 // Labeling function for the edges
 inline int f(int a, int b) { //, int k){
-    return (((a + b) >> 1) % K);
+    return ((a >> 1) + (b >> 1) + ((a & 1) && (b & 1))) % K;
 }
+
+typedef struct {
+    int half;
+    bool mod;
+} f_res;
+inline f_res fa(int a) { //, int k){
+    return (f_res) { a >> 1, a & 1 };
+}
+inline int f_sum(int b, bool m) {
+    return (b >> 1) + (m ? (b & 1) : 0);
+}
+
 
 // Prints a solution with the format:
 /*
@@ -31,7 +43,8 @@ void print_solution(const combination *c){
     printf("\nEdges:\n");
     for(int i = 0; i < c->b; i++) {
         for(int j = i + 1; j < c->b; j++) {
-            printf("%2d - %2d: f(%2d,%2d) = %2d \n", v[i], v[j], v[i], v[j], f(v[i], v[j]));//, (c->a / 2)));
+            printf("%2d - %2d: f(%2d,%2d) = %2d \n",
+                v[i], v[j], v[i], v[j], f(v[i], v[j]));//, (c->a / 2)));
         }
     }
 }
@@ -42,7 +55,10 @@ bool check_solution(const combination *c) {
     static bool seen[K];
     memset(seen, 0, K * sizeof(bool));
 
+#define OPTIM
+#ifndef OPTIM
     for (int i = 0; i < (c->b); i++) {
+
         for (int j = i + 1; j < (c->b); j++) {
             const int x = f(c->t[i], c->t[j]);//, (c->a) / 2);
             if (seen[x])
@@ -50,6 +66,18 @@ bool check_solution(const combination *c) {
             seen[x] = true;
         }
     }
+#else
+    for (int i = 0; i < c->b; i++) {
+
+        const f_res resa = fa(c->t[i]);
+        for (int j = i + 1; j < c->b; j++) {
+            const int x = (resa.half + f_sum(c->t[j], resa.mod)) % K;
+            if (seen[x])
+                return false;
+            seen[x] = true;
+        }
+    }
+#endif
     return true;
 }
 
@@ -58,7 +86,6 @@ bool test_combinations(combination *c, long long nb) {
         if (check_solution(c))
             return true;
         next_combination(c);
-        // print_array(c->t, c->b);
     }
     return false;
 }
@@ -73,21 +100,19 @@ bool search_for_solution(int n, int k, combination *c) {
 
     const int two_k = 2 * k;
     const long long nb_labelings = binomial_coef(two_k, n);
-    const long long step = 10000000LL;
-    const long long nblabred = nb_labelings / step;
-    *c = first_combination(two_k, n);
-    // print_array(c->t, c->b);
+    const long long batch_size = 10000000LL;
+    const long long nb_batches = nb_labelings / batch_size;
 
-    // printf("nblabred = %lld\n", nblabred);
-    // printf("remaining = %lld\n", nb_labelings % step);
-    
-    for (long long i = 0; i < nblabred; i++) {
-        if (test_combinations(c, step))
+    *c = first_combination(two_k, n);
+
+    // Printing progression after every batch
+    for (long long i = 0; i < nb_batches; i++) {
+        if (test_combinations(c, batch_size)) // tests batch combinations
             return true;
-        printf("\rChecking... %.f %%", (100.f * (i + 1)) / nblabred);
+        printf("\rChecking... %.f %%", (100.f * (i + 1)) / nb_batches);
         fflush(stdout);
     }
     printf("\n");
-    return test_combinations(c, nb_labelings % step);
+    return test_combinations(c, nb_labelings % batch_size);
 }
 

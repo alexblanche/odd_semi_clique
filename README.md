@@ -11,12 +11,12 @@ An *odd semi-clique* is a complete graph $K_{2k+1}$ from which at most $k-1$ edg
 
 While lots of sparse graph classes have been proven to satisfy Gallai's bound (and the stronger $\left\lfloor n / 2\right\rfloor$ bound), not much is known for dense graphs. In order to tackle the class of odd semi-cliques, I imagined the following method for finding a decomposition into $\left\lceil n / 2\right\rceil$ paths. Here $n = 2k+1$, we refer to paths as colors, the (at most $k-1$) edges removed from the complete graph are called *anti-edges*, and they form the *anti-graph*.
 
-1. Start by coloring the complete graph $K_{2k}$ with the "zig-zagging" coloring due to Walecki (1883) (see page 30 of my thesis). This coloring can be formalized algebraically as follows: the vertices of the graph are labeled $0, 1, \dots, 2k-1$, the colors are $0, 1, \dots, k-1$, and the color $i$ is the set of edges $\{uv \in E(G),\ \text{s.t.}\ \left\lfloor (u + v) / 2\right\rfloor = i (\mod k)\}$.
+1. Start by coloring the complete graph $K_{2k}$ with the "zig-zagging" coloring due to Walecki (1883) (see page 30 of my thesis). This coloring can be formalized algebraically as follows: the vertices of the graph are labeled $0, 1, \dots, 2k-1$, the colors are $0, 1, \dots, k-1$, and the color $i$ is the set of edges $\displaystyle \{uv \in E(G),\ \text{s.t.}\ \left\lfloor (u + v) / 2\right\rfloor = i\ (\mod k)\}$.
 
 **Remark**: the Walecki coloring is the only one I know that achieves a Gallai-decomposition of the complete graph.
 
 2. Place the anti-graph (of at most $k-1$ anti-edges) in the colored $K_{2k}$ such that the anti-edges have different colors.  
-This corresponds to labeling the vertices of the anti-graph injectively in such a way that the labeling $f(uv) = \left\lfloor (u + v) / 2\right\rfloor (\mod k)$ distinguishes all the anti-edges. I call graphs having this property *soft-mean*, by analogy to *mean graphs* which have a similar definition.
+This corresponds to labeling the vertices of the anti-graph injectively in such a way that the labeling $f(uv) = \left\lfloor (u + v) / 2\right\rfloor\ (\mod k)$ distinguishes all the anti-edges. I call graphs having this property *soft-mean*, by analogy to *mean graphs* which have a similar definition.
 
 3. Find a *gray path* that uses exactly one edge from each unused color (this path does not have to be vertex-disjoint from the anti-graph).
 
@@ -27,7 +27,9 @@ This way, the anti-edges "cut" some colors and turn their cycles into paths, and
 ## Experiment
 
 Since I could not prove that all graphs are soft-mean, and before attempting to brute-force all graphs up to a certain size to build confidence, I tried to brute-force the small complete graphs, as I figured that these were the cases most likely to fail.  
-The parameter ``N`` is defined in the file ``include/parameters.h``.
+
+I first did a "naive" brute-force algorithm of all the $\displaystyle \binom{2k}{n}$ embeddings of the clique $K_n$ in $K_{2k}$. The parameter ``N`` ($n$) is defined in the file ``include/parameters.h``, and the corresponding brute-force function can be enabled with ``type == Naive`` in ``main.c``.  
+I also implemented a fast brute-force function which skips the "useless" combinations: if two edges $ab,cd$ (resp. $ab,ac$) have the same $f$ image, then we can skip all the combinations that contain vertices $a,b,c,d$ (resp. $a,b,c$). The corresponding brute-force function can be enabled with ``type == Skip`` in ``main.c``.
 
 ### Conclusion
 

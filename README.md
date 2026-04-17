@@ -29,7 +29,7 @@ This way, the anti-edges "cut" some colors and turn their cycles into paths, and
 Since I could not prove that all graphs are soft-mean, and before attempting to brute-force all graphs up to a certain size to build confidence, I tried to brute-force the small complete graphs, as I figured that these were the cases most likely to fail.  
 
 I first did a "naive" brute-force algorithm of all the $\displaystyle \binom{2k}{n}$ embeddings of the clique $K_n$ in $K_{2k}$. The parameter ``N`` ($n$) is defined in the file ``include/parameters.h``, and the corresponding brute-force function can be enabled with ``type == Naive`` in ``main.c``.  
-I also implemented a fast brute-force function which skips the "useless" combinations: if two edges $ab,cd$ (resp. $ab,ac$) have the same $f$ image, then we can skip all the combinations that contain vertices $a,b,c,d$ (resp. $a,b,c$). The corresponding brute-force function can be enabled with ``type == Skip`` in ``main.c``. It is dramatically faster than the naive approach for $n = 8$!
+I also implemented a fast brute-force function which skips the "useless" combinations: if two edges $ab,cd$ (resp. $ab,ac$) have the same $f$ image, then we can skip all the combinations that contain vertices $a,b,c,d$ (resp. $a,b,c$). The corresponding brute-force function can be enabled with ``type == Skip`` in ``main.c``. It is dramatically faster than the naive approach for $n = 8$.
 
 ### Conclusion
 

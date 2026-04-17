@@ -14,11 +14,12 @@ While lots of sparse graph classes have been proven to satisfy Gallai's bound (a
 <figure style="text-align:center">
     <img src="assets/Walecki.png"
          alt="Walecki's construction">
-    <figcaption>Excerpt from my thesis' manuscript showing Walecki's construction</figcaption>
+    <figcaption>Excerpt from my thesis manuscript showing Walecki's construction</figcaption>
 </figure>
 
+<br>
 
-1. Start by coloring the complete graph $K_{2k}$ with the "zig-zagging" coloring due to Walecki (1883) (see page 30 of my thesis and the figure above). This coloring can be formalized algebraically as follows: the vertices of the graph are labeled $0, 1, \dots, 2k-1$, the colors are $0, 1, \dots, k-1$, and the color $i$ is the set of edges $`\{\ uv \in E(G),\ \text{s.t.}\ \left\lfloor (u + v) / 2\right\rfloor = i\ (\text{mod}\ k)\ \}`$.
+1. Start by coloring the complete graph $K_{2k}$ with the "zig-zagging" coloring due to Félix Walecki (1883) (see page 30 of my thesis and the figure above). This coloring can be algebraically formalized as follows: the vertices of the graph are labeled $0, 1, \dots, 2k-1$, the colors are $0, 1, \dots, k-1$, and the color $i$ is the set of edges $`\{\ uv \in E(G),\ \text{s.t.}\ \left\lfloor (u + v) / 2\right\rfloor = i\ (\text{mod}\ k)\ \}`$.
 
 **Remark**: the Walecki coloring is the only one I know that achieves a Gallai-decomposition of the complete graph.
 
@@ -35,11 +36,11 @@ This way, the anti-edges "cut" some colors and turn their cycles into paths, and
 
 Since I could not prove that all graphs are soft-mean, and before attempting to brute-force all graphs up to a certain size to build confidence, I tried to brute-force the small complete graphs, as I figured that these were the cases most likely to fail.  
 
-I first did a "naive" brute-force algorithm of all the $\displaystyle \binom{2k}{n}$ embeddings of the clique $K_n$ into $K_{2k}$. The parameter ``N`` ($n$) is defined in the file ``include/parameters.h``, and the corresponding brute-force function can be enabled with ``type == Naive`` in ``main.c``.  
-I also implemented a fast brute-force function which skips the "useless" combinations: if two edges $ab,cd$ (resp. $ab,ac$) have the same $f$ image, then we can skip all the combinations that contain vertices $a,b,c,d$ (resp. $a,b,c$). The corresponding brute-force function can be enabled with ``type == Skip`` in ``main.c``. It is dramatically faster than the naive approach for $n = 8$.
+I first did a "naive" brute-force algorithm of all the $\displaystyle \binom{2k}{p}$ embeddings of the clique $K_p$ into $K_{2k}$. The parameter $p$ is defined as ``N`` in the file ``include/parameters.h``, and the corresponding brute-force function can be enabled with ``type == Naive`` in ``main.c``.  
+I also implemented a fast brute-force function which skips the "useless" combinations: if two edges $ab,cd$ (resp. $ab,ac$) have the same $f$ image, then we can skip all the combinations that contain vertices $a,b,c,d$ (resp. $a,b,c$). The corresponding brute-force function can be enabled with ``type == Skip`` in ``main.c``. It is dramatically faster than the naive approach for $p = 8$.
 
-### Conclusion
+## Conclusion
 
-$K_n$ is soft-mean for $n = 2, \dots, 7$, and we compute a labeling in each case.  
+$K_p$ is soft-mean for $p = 2, \dots, 7$, and we compute a labeling in each case.  
 However, $K_8$ does not seem to have a solution (among ~2 billion possibilities), according to my program. To recap, this means that $K_8$ cannot be embedded into $K_{59}$ ($k - 1 = (8 \times 7)/2 = 28$ so $k = 29$, $n = 2k+1 = 59$) in such a way that its edges have different colors in the Walecki coloring.  
 Therefore, I decided to abandon this strategy.

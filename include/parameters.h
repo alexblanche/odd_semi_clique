@@ -6,7 +6,7 @@
 
 
 typedef enum {
-    combination_valid, combination_invalid
+    Combination_valid, Combination_invalid
 } combination_status;
 
 typedef struct {

@@ -6,7 +6,7 @@
 inline check_result order(int j1, int j2) {
     
     return (check_result) {
-        combination_invalid,
+        Combination_invalid,
         (j1 > j2) ? j1 : j2
     };
 }
@@ -35,17 +35,21 @@ check_result check_solution_with_culprits(const combination *c) {
             edges[x].maxv = j;
         }
     }
-    return (check_result) { .res = combination_valid };
+    return (check_result) { .res = Combination_valid };
 }
 
 search_result test_combinations_skip(combination *c, long long nb) {
 
-    bool stop = false;
-    for (long long j = 0; !stop && (j < nb); j++) {
+    for (long long j = 0; j < nb; j++) {
+
         const check_result cr = check_solution_with_culprits(c);
-        if (cr.res == combination_valid)
+        if (cr.res == Combination_valid)
             return Solution_found;
-        stop = next_combination_skip(c, &cr);
+
+        const enumeration_status status = next_combination_skip(c, &cr);
+        if (status == Stop_enumeration)
+            break;
     }
+
     return No_solution_found;
 }

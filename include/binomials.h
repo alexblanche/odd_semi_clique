@@ -23,6 +23,11 @@ combination first_combination(int a, int b);
 // The function returns the next one in the bin array
 void next_combination(combination *c);
 
-bool next_combination_skip(combination *c, const check_result *cr);
+
+typedef enum {
+	Continue_enumeration, Stop_enumeration
+} enumeration_status;
+
+enumeration_status next_combination_skip(combination *c, const check_result *cr);
 
 #endif

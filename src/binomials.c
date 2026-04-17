@@ -31,14 +31,11 @@ long long binomial_coef(int a, int b) {
 
 // Returns the combination { 0, 1, ..., b - 1 }
 combination first_combination(int a, int b) {
-	combination c;
-	c.a = a;
-	c.b = b;
+	combination c = { .a = a, .b = b };
 	for (int i = 0; i < c.b; i++)
 		c.t[i] = i;
 	return c;
 }
-
 
 // bin contains a choice of b integers among { 0, ..., a-1 }
 // The function returns the next one in the c->t array
@@ -58,29 +55,22 @@ void next_combination(combination *c) {
 		c->t[j] = x + (j - i);
 }
 
-
-// skips to the combination that increases index
-bool next_combination_skip(combination *c, const check_result *cr) {
+// Skips to the combination that increases index
+// Returns true if the enumeration is finished
+enumeration_status next_combination_skip(combination *c, const check_result *cr) {
 	
-	int index;
-	if (c->t[cr->max_culprit] < (2 * K) - N + cr->max_culprit) {
-		index = cr->max_culprit;
+	int i;
+	for (i = cr->max_culprit; i >= 0; i--) {
+		if (c->t[i] < (2 * K) - N + i)
+			break;
 	}
-	else {
-		int i;
-		for (i = N - 1; i >= 0; i--)
-			if (c->t[i] < (2 * K) - N + i)
-				break;
-		if (i < 0)
-			return true;
-		index = i;
-	}
+	if (i < 0)
+		return Stop_enumeration;
 
-	
-	const int x = c->t[index] + 1;
-	for (int j = index; j < N; j++)
-		c->t[j] = x + (j - index);
+	const int x = c->t[i] + 1;
+	for (int j = i; j < N; j++)
+		c->t[j] = x + (j - i);
 
-	return false;
+	return Continue_enumeration;
 }
 

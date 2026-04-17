@@ -15,12 +15,12 @@ combination_status check_solution(const combination *c) {
 
 #define OPTIM
 #ifndef OPTIM
-    for (int i = 0; i < (c->b); i++) {
+    for (int i = 0; i < c->b; i++) {
 
-        for (int j = i + 1; j < (c->b); j++) {
+        for (int j = i + 1; j < c->b; j++) {
             const int x = f(c->t[i], c->t[j]);//, (c->a) / 2);
             if (seen[x])
-                return combination_invalid;
+                return Combination_invalid;
             seen[x] = true;
         }
     }
@@ -31,18 +31,18 @@ combination_status check_solution(const combination *c) {
         for (int j = i + 1; j < c->b; j++) {
             const int x = (resa.half + f_sum(c->t[j], resa.mod)) % K;
             if (seen[x])
-                return combination_invalid;
+                return Combination_invalid;
             seen[x] = true;
         }
     }
 #endif
-    return combination_valid;
+    return Combination_valid;
 }
 
 
 search_result test_combinations_naive(combination *c, long long nb) {
     for (long long j = 0; j < nb; j++) {
-        if (check_solution(c) == combination_valid)
+        if (check_solution(c) == Combination_valid)
             return Solution_found;
         next_combination(c);
     }
